@@ -13,7 +13,7 @@ def set_x_timestamp_header(handler, registry):
     def set_x_timestamp_header_tween(request):
         try:
             response = handler(request)
-        except HTTPException, response:
+        except HTTPException as response:
             response.headers["X-Timestamp"] = str(int(time.time()))
             raise
         else:
