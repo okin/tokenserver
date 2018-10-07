@@ -8,6 +8,8 @@ For each available service, we maintain a list of user accounts and their
 associated uid, node-assignment and metadata.  We also have a list of nodes
 with their load, capacity etc
 """
+
+import logging
 import math
 import traceback
 from mozsvc.exceptions import BackendError
@@ -23,8 +25,6 @@ from zope.interface import implements
 from tokenserver.assignment import INodeAssignment
 from tokenserver.util import get_timestamp
 
-
-import logging
 logger = logging.getLogger('tokenserver.assignment.sqlnode')
 
 
