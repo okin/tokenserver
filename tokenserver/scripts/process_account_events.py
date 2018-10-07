@@ -108,7 +108,7 @@ def process_account_event(config, body):
             email = uid
         if event_type in ("reset", "passwordChange",):
             generation = event["generation"]
-    except (ValueError, KeyError), e:
+    except (ValueError, KeyError) as e:
         logger.exception("Invalid account message: %s", e)
     else:
         if email is not None:
