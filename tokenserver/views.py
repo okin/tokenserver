@@ -11,7 +11,6 @@ from cornice import Service
 from mozsvc.metrics import metrics_timer
 from pyramid import httpexceptions
 
-
 import tokenlib
 
 from tokenserver.verifiers import (
@@ -26,6 +25,11 @@ from tokenserver.util import json_error, fxa_metrics_hash
 import fxa.errors
 import browserid.errors
 import browserid.utils
+
+try:
+    _NUMBER_CLASSES = (int, long)
+except NameError:
+    _NUMBER_CLASSES = (int, )
 
 
 logger = logging.getLogger("tokenserver")
@@ -335,7 +339,7 @@ def return_token(request):
     try:
         idp_claims = request.validated['authorization']['idpClaims']
         generation = idp_claims['fxa-generation']
-        if not isinstance(generation, (int, long)):
+        if not isinstance(generation, _NUMBER_CLASSES):
             raise _unauthorized("invalid-generation")
     except KeyError:
         generation = 0
