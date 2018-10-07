@@ -238,7 +238,7 @@ class SQLNodeAssignment(object):
 
         try:
             return engine.execute(*args, **kwds)
-        except (OperationalError, TimeoutError), exc:
+        except (OperationalError, TimeoutError) as exc:
             err = traceback.format_exc()
             logger.error(err)
             raise BackendError(str(exc))
