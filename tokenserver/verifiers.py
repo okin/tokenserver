@@ -155,7 +155,7 @@ class RemoteBrowserIdVerifier(object):
                                          data=json.dumps(body),
                                          headers=headers,
                                          timeout=self.timeout)
-        except (socket.error, requests.RequestException), e:
+        except (socket.error, requests.RequestException) as e:
             msg = "Failed to POST %s. Reason: %s" % (self.verifier_url, str(e))
             raise ConnectionError(msg)
 
@@ -233,7 +233,7 @@ class RemoteOAuthVerifier(object):
     def verify(self, token):
         try:
             userinfo = self._client.verify_token(token, self.scope)
-        except (socket.error, requests.RequestException), e:
+        except (socket.error, requests.RequestException) as e:
             msg = 'Verification request to %s failed; reason: %s'
             msg %= (self.server_url, str(e))
             raise ConnectionError(msg)
