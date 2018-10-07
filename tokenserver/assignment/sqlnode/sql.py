@@ -601,7 +601,7 @@ class SQLNodeAssignment(object):
 
         # We may have to re-try the query if we need to release more capacity.
         # This loop allows a maximum of five retries before bailing out.
-        for _ in xrange(5):
+        for _ in range(5):
             res = self._safe_execute(query)
             row = res.fetchone()
             res.close()
