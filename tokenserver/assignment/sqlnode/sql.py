@@ -523,7 +523,7 @@ class SQLNodeAssignment(object):
             except KeyError:
                 pass
         if kwds:
-            raise ValueError("unknown fields: " + str(kwds.keys()))
+            raise ValueError("unknown fields: " + str(list(kwds.keys())))
         query = update(nodes, where, values)
         con = self._safe_execute(query, close=True)
         con.close()
