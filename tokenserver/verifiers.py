@@ -7,7 +7,6 @@ from zope.interface.interfaces import ComponentLookupError # noqa; for re-export
 
 import socket
 import requests
-import urlparse
 
 import browserid.verifiers.local
 from browserid.errors import (InvalidSignatureError, ExpiredSignatureError,
@@ -19,6 +18,10 @@ import fxa.oauth
 import fxa.errors
 import fxa.constants
 
+try:
+    from urlparse import urlparse
+except ImportError:
+    from urllib.parse import urlparse
 
 DEFAULT_OAUTH_SCOPE = 'https://identity.mozilla.com/apps/oldsync'
 
@@ -201,7 +204,7 @@ class RemoteOAuthVerifier(object):
             for urls in fxa.constants.ENVIRONMENT_URLS.itervalues():
                 if urls['oauth'] == server_url:
                     auth_url = urls['authentication']
-                    default_issuer = urlparse.urlparse(auth_url).netloc
+                    default_issuer = urlparse(auth_url).netloc
                     break
             else:
                 # For non-standard hosting setups, look it up dynamically.
