@@ -36,7 +36,7 @@ def allocate_user(config_file, service, email, node=None):
             user = backend.allocate_user(service, email, node=node)
         else:
             backend.update_user(service, user, node=node)
-        print user["node"]
+        print(user["node"])
     except Exception:
         logger.exception("Error while updating node")
         return False
