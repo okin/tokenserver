@@ -23,6 +23,11 @@ try:
 except ImportError:
     from urllib.parse import urlparse
 
+try:
+    _STRING_CLASS = basestring
+except NameError:
+    _STRING_CLASS = str
+
 DEFAULT_OAUTH_SCOPE = 'https://identity.mozilla.com/apps/oldsync'
 
 
@@ -68,12 +73,12 @@ class LocalBrowserIdVerifier(browserid.verifiers.local.LocalVerifier):
             Set to True (the default) to use default certificate authorities.
             Set to False to disable SSL verification.
         """
-        if isinstance(trusted_issuers, basestring):
+        if isinstance(trusted_issuers, _STRING_CLASS):
             trusted_issuers = trusted_issuers.split()
         self.trusted_issuers = trusted_issuers
         if trusted_issuers is not None:
             kwargs["trusted_secondaries"] = trusted_issuers
-        if isinstance(allowed_issuers, basestring):
+        if isinstance(allowed_issuers, _STRING_CLASS):
             allowed_issuers = allowed_issuers.split()
         self.allowed_issuers = allowed_issuers
         if "ssl_certificate" in kwargs:
@@ -120,12 +125,12 @@ class RemoteBrowserIdVerifier(object):
         # Since we don't parse the assertion locally, we cannot support
         # list- or pattern-based audience strings.
         if audiences is not None:
-            assert isinstance(audiences, basestring)
+            assert isinstance(audiences, _STRING_CLASS)
         self.audiences = audiences
-        if isinstance(trusted_issuers, basestring):
+        if isinstance(trusted_issuers, _STRING_CLASS):
             trusted_issuers = trusted_issuers.split()
         self.trusted_issuers = trusted_issuers
-        if isinstance(allowed_issuers, basestring):
+        if isinstance(allowed_issuers, _STRING_CLASS):
             allowed_issuers = allowed_issuers.split()
         self.allowed_issuers = allowed_issuers
         if verifier_url is None:
@@ -233,7 +238,7 @@ class RemoteOAuthVerifier(object):
             msg %= (self.server_url, str(e))
             raise ConnectionError(msg)
         issuer = userinfo.get('issuer', self.default_issuer)
-        if not issuer or not isinstance(issuer, basestring):
+        if not issuer or not isinstance(issuer, _STRING_CLASS):
             msg = 'Could not determine issuer from verifier response'
             raise fxa.errors.TrustError(msg)
         return {
