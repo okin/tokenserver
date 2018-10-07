@@ -206,7 +206,7 @@ class RemoteOAuthVerifier(object):
             server_url = self._client.server_url
             # Try to find the auth-server that matches the given oauth-server.
             # For well-known servers this avoids discovering it dynamically.
-            for urls in fxa.constants.ENVIRONMENT_URLS.itervalues():
+            for urls in fxa.constants.ENVIRONMENT_URLS.values():
                 if urls['oauth'] == server_url:
                     auth_url = urls['authentication']
                     default_issuer = urlparse(auth_url).netloc
